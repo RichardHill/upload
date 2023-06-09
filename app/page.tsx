@@ -35,6 +35,7 @@ function StyledDropzone() {
     const [file, setFile] = React.useState<File | undefined>()
     const [selectedValue, setSelectedValue] = React.useState("option1")
     const [email, setEmail] = React.useState()
+    const [isUploading, setIsUploading] = React.useState(false)
 
     const handleChange = (event: any) => {
         setSelectedValue(event.target.value)
@@ -51,6 +52,7 @@ function StyledDropzone() {
     const onButtonClick = async () => {
         if (file) {
             try {
+                setIsUploading(true)
                 const response = await fetch(`https://api.greencloud.dev/gc/c279f9bf643e47dc8ad9694d9e53a302/?email=${email}&filename=` + fileNameWithoutExtension, {
                     method: "POST",
                     headers: {
@@ -58,7 +60,7 @@ function StyledDropzone() {
                     },
                     body: file,
                 })
-
+                setIsUploading(false)
                 const responseData = await response.json()
                 console.log(responseData)
             } catch (error) {
@@ -92,12 +94,12 @@ function StyledDropzone() {
                 <div className="flex flex-col mt-4">
                     <div className="flex">
                         <h3>Name:</h3>
-                        <input readOnly className="h-6 ml-2 pl-2 w-64" type="text" value={file?.name || ""} />
+                        <input readOnly className="h-6 ml-2 pl-2 w-64 rounded" type="text" value={file?.name || ""} />
                     </div>
                     <div className="mt-2 flex">
                         <h3>Client:</h3>
                         <div>
-                            <select className="bg-white ml-2 pl-2 h-6 w-64" value={selectedValue} onChange={handleChange}>
+                            <select className="bg-white ml-2 pl-2 h-6 w-64 rounded" value={selectedValue} onChange={handleChange}>
                                 <option value="">Select an option</option>
                                 <option value="option1">McDonalds&apos;s</option>
                             </select>
@@ -105,7 +107,7 @@ function StyledDropzone() {
                     </div>
                     <div className="mt-2 flex">
                         <h3>Email:</h3>
-                        <input className="h-6 ml-3 pl-2 w-64" type="text" value={email || ""} onChange={(e: any) => setEmail(e.target.value)} />
+                        <input className="h-6 ml-3 pl-2 w-64 rounded" type="text" value={email || ""} onChange={(e: any) => setEmail(e.target.value)} />
                     </div>
                 </div>
                 <button
@@ -114,6 +116,14 @@ function StyledDropzone() {
                     className="mt-5 ml-20 bg-[#3b71ca] inline-block rounded bg-info px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#54b4d3] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:bg-info-600 focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]"
                 >
                     Upload
+                    {isUploading ? (
+                        <div
+                            className="inline-block h-4 w-4 ml-2 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                            role="status"
+                        >
+                            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+                        </div>
+                    ) : null}
                 </button>
             </section>
         </div>
