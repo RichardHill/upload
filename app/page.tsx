@@ -36,6 +36,9 @@ function StyledDropzone() {
     const [selectedValue, setSelectedValue] = React.useState("option1")
     const [email, setEmail] = React.useState()
     const [isUploading, setIsUploading] = React.useState(false)
+    const [isRunning, setIsRunnig] = React.useState(false)
+    const [taskID, setTaskID] = React.useState("")
+    const [result, setResult] = React.useState<{ status: number; message: string }>()
 
     const handleChange = (event: any) => {
         setSelectedValue(event.target.value)
@@ -53,6 +56,8 @@ function StyledDropzone() {
         if (file) {
             try {
                 setIsUploading(true)
+                setResult(undefined)
+                setIsRunnig(false)
                 const response = await fetch(`https://api.greencloud.dev/gc/c279f9bf643e47dc8ad9694d9e53a302/?email=${email}&filename=` + fileNameWithoutExtension, {
                     method: "POST",
                     headers: {
@@ -63,17 +68,44 @@ function StyledDropzone() {
                 setIsUploading(false)
                 console.log("response", response.status)
                 const responseData = await response.json()
+                setTaskID(responseData.id)
                 console.log(responseData)
             } catch (error) {
                 console.error("Error:", error)
             }
         }
     }
-    const { acceptedFiles, getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } = useDropzone({
+    const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } = useDropzone({
         accept: { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"] },
         maxFiles: 1,
         onDrop,
     })
+
+    React.useEffect(() => {
+        if (taskID === "") return
+        setIsRunnig(true)
+
+        async function getResult() {
+            try {
+                const response = await fetch(`https://api.greencloud.dev/gc/${taskID}/result`)
+                const responseMessage = await response.text()
+                if (response.status !== 404) {
+                    setIsRunnig(false)
+                    clearInterval(intervalId) // Clear interval when you get a 201 status
+                    setResult({
+                        status: response.status,
+                        message: responseMessage,
+                    })
+                }
+            } catch (error) {
+                console.error("Error:", error)
+            }
+        }
+
+        const intervalId = setInterval(getResult, 3000) // Call getResult every 3 seconds
+
+        return () => clearInterval(intervalId) // Clear interval when the component unmounts
+    }, [taskID])
 
     const style = React.useMemo(
         () => ({
@@ -127,6 +159,22 @@ function StyledDropzone() {
                     ) : null}
                 </button>
             </section>
+            {isRunning ? (
+                <div className="mt-5">
+                    Result: Running
+                    <div
+                        className="inline-block h-4 w-4 ml-2 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                        role="status"
+                    >
+                        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <h3 className="mt-5">Result: {result?.status === 200 ? "Success" : result === undefined ? "" : "Failure"}</h3>
+                    <h3 className="">Message: {result?.message}</h3>
+                </>
+            )}
         </div>
     )
 }
