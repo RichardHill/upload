@@ -47,7 +47,7 @@ function StyledDropzone() {
         }
     }, [])
 
-    const fileNameWithoutExtension = file?.name.split(".").slice(0, -1).join(".")
+    const fileNameWithoutExtension = file?.name.split(".").slice(0, -1).join(".").replaceAll(" ", "_")
 
     const onButtonClick = async () => {
         if (file) {
@@ -61,6 +61,7 @@ function StyledDropzone() {
                     body: file,
                 })
                 setIsUploading(false)
+                console.log("response", response.status)
                 const responseData = await response.json()
                 console.log(responseData)
             } catch (error) {
