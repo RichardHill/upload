@@ -34,7 +34,7 @@ const rejectStyle = {
 function StyledDropzone() {
     const [file, setFile] = React.useState<File | undefined>()
     const [selectedValue, setSelectedValue] = React.useState("option1")
-    const [email, setEmail] = React.useState()
+    const [email, setEmail] = React.useState("")
     const [isUploading, setIsUploading] = React.useState(false)
     const [isRunning, setIsRunnig] = React.useState(false)
     const [taskID, setTaskID] = React.useState("")
@@ -140,13 +140,15 @@ function StyledDropzone() {
                     </div>
                     <div className="mt-2 flex">
                         <h3>Email:</h3>
-                        <input className="h-6 ml-3 pl-2 w-64 rounded" type="text" value={email || ""} onChange={(e: any) => setEmail(e.target.value)} />
+                        <input className="h-6 ml-3 pl-2 w-64 rounded !text-black" type="text" value={email || ""} onChange={(e: any) => setEmail(e.target.value)} />
                     </div>
                 </div>
                 <button
                     type="button"
                     onClick={onButtonClick}
-                    className="mt-5 ml-20 bg-[#3b71ca] inline-block rounded bg-info px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#54b4d3] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:bg-info-600 focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]"
+                    disabled={email === ""}
+                    style={{ background: email === "" || !file?.name ? "gray" : "#3b71ca" }}
+                    className="mt-5 ml-20 bg-[#3b71ca] inline-block rounded bg-info px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-info-600"
                 >
                     Upload
                     {isUploading ? (
