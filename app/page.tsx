@@ -146,7 +146,7 @@ function StyledDropzone() {
                 <button
                     type="button"
                     onClick={onButtonClick}
-                    disabled={email === ""}
+                    disabled={email === "" || !file?.name}
                     style={{ background: email === "" || !file?.name ? "gray" : "#3b71ca" }}
                     className="mt-5 ml-20 bg-[#3b71ca] inline-block rounded bg-info px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-info-600"
                 >
