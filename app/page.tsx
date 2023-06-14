@@ -33,7 +33,8 @@ const rejectStyle = {
 
 function StyledDropzone() {
     const [file, setFile] = React.useState<File | undefined>()
-    const [selectedValue, setSelectedValue] = React.useState("option1")
+    type OptionType = "option1" | "option2"
+    const [selectedValue, setSelectedValue] = React.useState<OptionType>("option1")
     const [email, setEmail] = React.useState("")
     const [isUploading, setIsUploading] = React.useState(false)
     const [isRunning, setIsRunnig] = React.useState(false)
@@ -121,7 +122,7 @@ function StyledDropzone() {
         <div className="container">
             <div {...getRootProps({ style })}>
                 <input {...getInputProps()} />
-                <p>Drag &apos;n&apos; drop some files here, or click to select files</p>
+                <p>Drag &apos;n&apos; drop {extension(selectedValue)} file here, or click to select one.</p>
             </div>
             <section className="flex items-center">
                 <div className="flex flex-col mt-4">
@@ -134,7 +135,12 @@ function StyledDropzone() {
                         <div>
                             <select className="bg-white ml-2 pl-2 h-6 w-64 rounded" value={selectedValue} onChange={handleChange}>
                                 <option value="">Select an option</option>
-                                <option value="option1">McDonalds&apos;s</option>
+                                <option value="option1">
+                                    Orders - <span>McDonalds&apos;s</span>
+                                </option>
+                                <option value="option2">
+                                    Badges - <span>British Airways</span>
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -187,4 +193,16 @@ export default function Home() {
             <StyledDropzone />
         </main>
     )
+}
+
+// Helper functions
+
+type OptionType = "option1" | "option2"
+function extension(text: OptionType) {
+    const dictionary = {
+        option1: "an .xlsx",
+        option2: "a .csv",
+    }
+
+    return dictionary[text]
 }
