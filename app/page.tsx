@@ -140,7 +140,7 @@ function StyledDropzone() {
                     </div>
                     <div className="mt-2 flex">
                         <h3>Email:</h3>
-                        <input className="h-6 ml-3 pl-2 w-64 rounded !text-black" type="text" value={email || ""} onChange={(e: any) => setEmail(e.target.value)} />
+                        <input className="h-6 ml-3 pl-2 w-64 rounded !text-black" type="email" value={email || ""} onChange={(e: any) => setEmail(e.target.value)} />
                     </div>
                 </div>
                 <button
