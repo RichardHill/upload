@@ -36,6 +36,9 @@ function StyledDropzone() {
     type OptionType = "option1" | "option2"
     const [selectedValue, setSelectedValue] = React.useState<OptionType>("option1")
     const [email, setEmail] = React.useState("")
+    const [flagsPath, setFlagsPath] = React.useState("")
+    const [itemCount, setItemCount] = React.useState("")
+    const [sheetCount, setSheetCount] = React.useState("")
     const [isUploading, setIsUploading] = React.useState(false)
     const [isRunning, setIsRunnig] = React.useState(false)
     const [taskID, setTaskID] = React.useState("")
@@ -59,13 +62,18 @@ function StyledDropzone() {
                 setIsUploading(true)
                 setResult(undefined)
                 setIsRunnig(false)
-                const response = await fetch(`https://api.greencloud.dev/gc/c279f9bf643e47dc8ad9694d9e53a302/?email=${email}&filename=` + fileNameWithoutExtension, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/octet-stream",
-                    },
-                    body: file,
-                })
+                const response = await fetch(
+                    `https://api.greencloud.dev/gc/${getEndpoint(
+                        selectedValue
+                    )}/?email=${email}&filename=${fileNameWithoutExtension}&path=${flagsPath}&itemcount=${itemCount}&sheetcount=${sheetCount}`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/octet-stream",
+                        },
+                        body: file,
+                    }
+                )
                 setIsUploading(false)
                 console.log("response", response.status)
                 const responseData = await response.json()
@@ -122,18 +130,18 @@ function StyledDropzone() {
         <div className="container">
             <div {...getRootProps({ style })}>
                 <input {...getInputProps()} />
-                <p>Drag &apos;n&apos; drop {extension(selectedValue)} file here, or click to select one.</p>
+                <p>Drag &apos;n&apos; drop an .xlsx file here, or click to select one.</p>
             </div>
             <section className="flex items-center">
                 <div className="flex flex-col mt-4">
                     <div className="flex">
                         <h3>Name:</h3>
-                        <input readOnly className="h-6 ml-2 pl-2 w-64 rounded" type="text" value={file?.name || ""} />
+                        <input readOnly className="h-6 !ml-28 pl-2 w-64 rounded !text-black absolute" type="text" value={file?.name || ""} />
                     </div>
                     <div className="mt-2 flex">
                         <h3>Client:</h3>
                         <div>
-                            <select className="bg-white ml-2 pl-2 h-6 w-64 rounded" value={selectedValue} onChange={handleChange}>
+                            <select className="bg-white ml-16 pl-2 h-6 w-64 rounded absolute" value={selectedValue} onChange={handleChange}>
                                 <option value="">Select an option</option>
                                 <option value="option1">
                                     Orders - <span>McDonalds&apos;s</span>
@@ -146,15 +154,46 @@ function StyledDropzone() {
                     </div>
                     <div className="mt-2 flex">
                         <h3>Email:</h3>
-                        <input className="h-6 ml-3 pl-2 w-64 rounded !text-black" type="email" value={email || ""} onChange={(e: any) => setEmail(e.target.value)} />
+                        <input className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute" type="email" value={email || ""} onChange={(e: any) => setEmail(e.target.value)} />
                     </div>
+                    {selectedValue === "option2" ? (
+                        <>
+                            <div className="mt-2 flex">
+                                <h3>Flags path:</h3>
+                                <input
+                                    className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
+                                    type="text"
+                                    value={flagsPath || ""}
+                                    onChange={(e: any) => setFlagsPath(e.target.value)}
+                                />
+                            </div>
+                            <div className="mt-2 flex">
+                                <h3>Item count:</h3>
+                                <input
+                                    className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
+                                    type="number"
+                                    value={itemCount || ""}
+                                    onChange={(e: any) => setItemCount(e.target.value)}
+                                />
+                            </div>
+                            <div className="mt-2 flex">
+                                <h3>Sheet count:</h3>
+                                <input
+                                    className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
+                                    type="number"
+                                    value={sheetCount || ""}
+                                    onChange={(e: any) => setSheetCount(e.target.value)}
+                                />
+                            </div>
+                        </>
+                    ) : null}
                 </div>
                 <button
                     type="button"
                     onClick={onButtonClick}
                     disabled={email === "" || !file?.name}
                     style={{ background: email === "" || !file?.name ? "gray" : "#3b71ca" }}
-                    className="mt-5 ml-20 bg-[#3b71ca] inline-block rounded bg-info px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-info-600"
+                    className="mt-5 ml-96 bg-[#3b71ca] inline-block rounded bg-info px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-info-600"
                 >
                     Upload
                     {isUploading ? (
@@ -197,12 +236,21 @@ export default function Home() {
 
 // Helper functions
 
+// function extension(text: OptionType) {
+//     const dictionary = {
+//         option1: "an .xlsx",
+//         option2: "a .csv",
+//     }
+
+//     return dictionary[text]
+// }
+
 type OptionType = "option1" | "option2"
-function extension(text: OptionType) {
-    const dictionary = {
-        option1: "an .xlsx",
-        option2: "a .csv",
+function getEndpoint(option: OptionType) {
+    const endpoints = {
+        option1: "c279f9bf643e47dc8ad9694d9e53a302",
+        option2: "58fa8172d6724cd584356f95f8597971",
     }
 
-    return dictionary[text]
+    return endpoints[option]
 }
