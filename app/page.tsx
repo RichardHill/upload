@@ -36,7 +36,7 @@ function StyledDropzone() {
     type OptionType = "option1" | "option2"
     const [selectedValue, setSelectedValue] = React.useState<OptionType>("option1")
     const [email, setEmail] = React.useState("")
-    const [flagsPath, setFlagsPath] = React.useState("")
+    const [flagsPath, setFlagsPath] = React.useState("C:\\Flags\\")
     const [itemCount, setItemCount] = React.useState("")
     const [sheetCount, setSheetCount] = React.useState("")
     const [isUploading, setIsUploading] = React.useState(false)
