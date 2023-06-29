@@ -253,8 +253,8 @@ export default function Home() {
 type OptionType = "option1" | "option2"
 function getEndpoint(option: OptionType) {
     const endpoints = {
-        option1: "c279f9bf643e47dc8ad9694d9e53a302",
-        option2: "58fa8172d6724cd584356f95f8597971",
+        option1: "a6fa9cc736e54ee9bfab74376e75973f", // McDonald's order
+        option2: "58fa8172d6724cd584356f95f8597971", // British Airways Badges
     }
 
     return endpoints[option]
