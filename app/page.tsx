@@ -134,7 +134,7 @@ function StyledDropzone() {
 
     return (
         <div className="container">
-            <Image src="/logo.jpeg" alt="logo" width={300} height={100} className="mb-8" />
+            <Image src="/logo.jpeg" alt="logo" width={300} height={100} className="m-auto mb-8" />
             <div {...getRootProps({ style })}>
                 <input {...getInputProps()} />
                 <p>Drag &apos;n&apos; drop an .xlsx file here, or click to select one.</p>
