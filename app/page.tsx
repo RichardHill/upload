@@ -141,12 +141,21 @@ function StyledDropzone() {
                 <div className="flex flex-col mt-4">
                     <div className="flex">
                         <h3>Name:</h3>
-                        <input readOnly className="h-6 !ml-28 pl-2 w-64 rounded !text-black absolute" type="text" value={file?.name || ""} />
+                        <input
+                            readOnly
+                            className="h-6 !ml-28 pl-2 w-64 rounded !text-black absolute"
+                            type="text"
+                            value={file?.name || ""}
+                        />
                     </div>
                     <div className="mt-2 flex">
                         <h3>Client:</h3>
                         <div>
-                            <select className="bg-white ml-16 pl-2 h-6 w-64 rounded absolute" value={selectedValue} onChange={handleChange}>
+                            <select
+                                className="bg-white ml-16 pl-2 h-6 w-64 rounded absolute"
+                                value={selectedValue}
+                                onChange={handleChange}
+                            >
                                 <option value="">Select an option</option>
                                 <option value="option1">
                                     Orders - <span>McDonalds&apos;s</span>
@@ -154,12 +163,20 @@ function StyledDropzone() {
                                 <option value="option2">
                                     Badges - <span>British Airways</span>
                                 </option>
+                                <option value="option3">
+                                    Badges - <span>BUPA</span>
+                                </option>
                             </select>
                         </div>
                     </div>
                     <div className="mt-2 flex">
                         <h3>Email:</h3>
-                        <input className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute" type="email" value={email || ""} onChange={(e: any) => setEmail(e.target.value)} />
+                        <input
+                            className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
+                            type="email"
+                            value={email || ""}
+                            onChange={(e: any) => setEmail(e.target.value)}
+                        />
                     </div>
                     {selectedValue === "option2" ? (
                         <>
@@ -206,7 +223,9 @@ function StyledDropzone() {
                             className="inline-block h-4 w-4 ml-2 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                             role="status"
                         >
-                            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+                            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                                Loading...
+                            </span>
                         </div>
                     ) : null}
                 </button>
@@ -218,12 +237,16 @@ function StyledDropzone() {
                         className="inline-block h-4 w-4 ml-2 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                         role="status"
                     >
-                        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+                        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                            Loading...
+                        </span>
                     </div>
                 </div>
             ) : (
                 <>
-                    <h3 className="mt-5">Result: {result?.status === 200 ? "Success" : result === undefined ? "" : "Failure"}</h3>
+                    <h3 className="mt-5">
+                        Result: {result?.status === 200 ? "Success" : result === undefined ? "" : "Failure"}
+                    </h3>
                     <h3 className="">Message: {result?.message}</h3>
                 </>
             )}
@@ -255,6 +278,7 @@ function getEndpoint(option: OptionType) {
     const endpoints = {
         option1: "a6fa9cc736e54ee9bfab74376e75973f", // McDonald's order
         option2: "58fa8172d6724cd584356f95f8597971", // British Airways Badges
+        option3: "698c003d40d045c4b35e24bb6065a401", // BUPA
     }
 
     return endpoints[option]
