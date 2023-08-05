@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { useDropzone } from "react-dropzone"
+import Image from "next/image"
 
 const baseStyle: React.CSSProperties = {
     flex: 1,
@@ -133,6 +134,7 @@ function StyledDropzone() {
 
     return (
         <div className="container">
+            <Image src="/logo.jpeg" alt="logo" width={300} height={100} className="mb-8" />
             <div {...getRootProps({ style })}>
                 <input {...getInputProps()} />
                 <p>Drag &apos;n&apos; drop an .xlsx file here, or click to select one.</p>
@@ -256,7 +258,7 @@ function StyledDropzone() {
 
 export default function Home() {
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        <main className="flex min-h-screen flex-col items-center justify-between p-16">
             <StyledDropzone />
         </main>
     )
