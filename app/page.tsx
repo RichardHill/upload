@@ -168,6 +168,9 @@ function StyledDropzone() {
                                 <option value="option3">
                                     Badges - <span>BUPA</span>
                                 </option>
+                                <option value="option4">
+                                    Badges - <span>BUPA Webshop</span>
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -281,6 +284,7 @@ function getEndpoint(option: OptionType) {
         option1: "a6fa9cc736e54ee9bfab74376e75973f", // McDonald's order
         option2: "58fa8172d6724cd584356f95f8597971", // British Airways Badges
         option3: "698c003d40d045c4b35e24bb6065a401", // BUPA
+        option4: "9d22d924d3c74f6a9a2fd5e8a1edc7b5",
     }
 
     return endpoints[option]
