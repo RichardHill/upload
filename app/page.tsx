@@ -163,18 +163,21 @@ function StyledDropzone() {
                                     Badges - <span>British Airways</span>
                                 </option>
                                 <option value="option2">
-                                    Orders - <span>McDonalds&apos;s</span>
+                                    Month End - <span>McDonalds&apos;s</span>
                                 </option>
                                 <option value="option3">
-                                    Orders - <span>BUPA</span>
+                                    Orders - <span>McDonalds&apos;s Month End</span>
                                 </option>
                                 <option value="option4">
-                                    Orders - <span>BUPA Webshop</span>
+                                    Orders - <span>BUPA</span>
                                 </option>
                                 <option value="option5">
-                                    Orders - <span>ALDI</span>
+                                    Orders - <span>BUPA Webshop</span>
                                 </option>
                                 <option value="option6">
+                                    Orders - <span>ALDI</span>
+                                </option>
+                                <option value="option7">
                                     Orders - <span>Greggs</span>
                                 </option>
                             </select>
@@ -286,14 +289,15 @@ export default function Home() {
 
 type OptionType = "option1" | "option2"
 function getEndpoint(option: OptionType) {
-    
+
     const endpoints = {
         option1: "58fa8172d6724cd584356f95f8597971", // British Airways Badges
-        option2: "a6fa9cc736e54ee9bfab74376e75973f", // McDonald's order
-        option3: "698c003d40d045c4b35e24bb6065a401", // BUPA
-        option4: "9d22d924d3c74f6a9a2fd5e8a1edc7b5", // BUPA Webshop
-        option5: "ea2528a5be3c4ffa815af42daff0e450", // ALDI
-        option6: "1ed1ee61dfe549769a11e66a6bc1d970", // Greggs
+        option2: "a6fa9cc736e54ee9bfab74376e75973f", // McDonald's Month End
+        option3: "0c542c7113b446089f5b6d5f93f24548", // McDonald's order
+        option4: "698c003d40d045c4b35e24bb6065a401", // BUPA
+        option5: "9d22d924d3c74f6a9a2fd5e8a1edc7b5", // BUPA Webshop
+        option6: "ea2528a5be3c4ffa815af42daff0e450", // ALDI
+        option7: "1ed1ee61dfe549769a11e66a6bc1d970", // Greggs
     }
 
     return endpoints[option]
