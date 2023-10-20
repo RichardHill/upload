@@ -166,7 +166,7 @@ function StyledDropzone() {
                                     Month End - <span>McDonalds&apos;s</span>
                                 </option>
                                 <option value="option3">
-                                    Orders - <span>McDonalds&apos;s Month End</span>
+                                    Orders - <span>McDonalds&apos;s</span>
                                 </option>
                                 <option value="option4">
                                     Orders - <span>BUPA</span>
