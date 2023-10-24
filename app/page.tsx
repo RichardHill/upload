@@ -192,7 +192,7 @@ function StyledDropzone() {
                             onChange={(e: any) => setEmail(e.target.value)}
                         />
                     </div>
-                    {selectedValue === "option2" ? (
+                    {selectedValue === "option1" ? (
                         <>
                             <div className="mt-2 flex">
                                 <h3>Flags path:</h3>
