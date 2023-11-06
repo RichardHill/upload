@@ -205,9 +205,9 @@ function StyledDropzone() {
                                 <h3>Flags path:</h3>
                                 <select className="bg-white ml-28 pl-2 h-6 w-64 rounded absolute" value={selectedPath} onChange={handlePathChange}>
                                     <option value="">Select a path</option>
-                                    <option value="option1">C:\\</option>
-                                    <option value="option2">C:\\BP\\</option>
-                                    <option value="option3">C:\\flags\\</option>
+                                    <option value="C:\">C:\</option>
+                                    <option value="C:\BP\">C:\BP\</option>
+                                    <option value="C:\flags\">C:\flags\</option>
                                 </select>
                                 {/* <input
                                     className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
