@@ -36,6 +36,7 @@ function StyledDropzone() {
     const [file, setFile] = React.useState<File | undefined>()
     type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8"
     const [selectedValue, setSelectedValue] = React.useState<OptionType>("option1")
+    const [selectedPath, setSelectedPath] = React.useState<OptionType>("option1")
     const [email, setEmail] = React.useState("")
     const [flagsPath, setFlagsPath] = React.useState("")
     const [sortColumn, setSortColumn] = React.useState("")
@@ -53,6 +54,12 @@ function StyledDropzone() {
             setFlagsPath("")
         }
         setSelectedValue(event.target.value)
+    }
+
+    const handlePathChange = (event: any) => {
+        setSelectedPath(event.target.value)
+        //setSelectedValue(event.target.value)
+        setFlagsPath(event.target.value)
     }
 
     const onDrop = React.useCallback((acceptedFiles: File[]) => {
@@ -163,25 +170,25 @@ function StyledDropzone() {
                             >
                                 <option value="">Select an option</option>
                                 <option value="option1">
-                                    Badges - <span>British Airways</span>
+                                    Badges - British Airways
                                 </option>
                                 <option value="option2">
-                                    Month End - <span>McDonalds&apos;s</span>
+                                    Month End - McDonalds
                                 </option>
                                 <option value="option3">
-                                    Orders - <span>McDonalds&apos;s</span>
+                                    Orders - McDonalds
                                 </option>
                                 <option value="option4">
-                                    Orders - <span>BUPA</span>
+                                    Orders - BUPA
                                 </option>
                                 <option value="option5">
-                                    Orders - <span>BUPA Webshop</span>
+                                    Orders - BUPA Webshop
                                 </option>
                                 <option value="option6">
-                                    Orders - <span>ALDI</span>
+                                    Orders - ALDI
                                 </option>
                                 <option value="option7">
-                                    Orders - <span>Greggs</span>
+                                    Orders - Greggs
                                 </option>
                                 <option value="option8">
                                     Orders - <span>Customer Sort</span>
@@ -202,12 +209,18 @@ function StyledDropzone() {
                         <>
                             <div className="mt-2 flex">
                                 <h3>Flags path:</h3>
-                                <input
+                                <select className="bg-white ml-28 pl-2 h-6 w-64 rounded absolute" value={selectedPath} onChange={handlePathChange}>
+                                    <option value="">Select a path</option>
+                                    <option value="C:\">C:\</option>
+                                    <option value="C:\BP\">C:\BP\</option>
+                                    <option value="C:\flags\">C:\flags\</option>
+                                </select>
+                                {/* <input
                                     className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
                                     type="text"
                                     value={flagsPath || ""}
                                     onChange={(e: any) => setFlagsPath(e.target.value)}
-                                />
+                                /> */}
                             </div>
                             <div className="mt-2 flex">
                                 <h3>Item count:</h3>
