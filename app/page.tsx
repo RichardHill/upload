@@ -34,14 +34,15 @@ const rejectStyle = {
 
 function StyledDropzone() {
     const [file, setFile] = React.useState<File | undefined>()
-    type OptionType = "option1" | "option2"
+    type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8"
     const [selectedValue, setSelectedValue] = React.useState<OptionType>("option1")
     const [email, setEmail] = React.useState("")
     const [flagsPath, setFlagsPath] = React.useState("")
+    const [sortColumn, setSortColumn] = React.useState("")
     const [itemCount, setItemCount] = React.useState("")
     const [sheetCount, setSheetCount] = React.useState("")
     const [isUploading, setIsUploading] = React.useState(false)
-    const [isRunning, setIsRunnig] = React.useState(false)
+    const [isRunning, setIsRunning] = React.useState(false)
     const [taskID, setTaskID] = React.useState("")
     const [result, setResult] = React.useState<{ status: number; message: string }>()
 
@@ -65,13 +66,14 @@ function StyledDropzone() {
     const onButtonClick = async () => {
         if (file) {
             try {
+
                 setIsUploading(true)
                 setResult(undefined)
-                setIsRunnig(false)
+                setIsRunning(false)
+
                 const response = await fetch(
-                    `https://api.greencloud.dev/gc/${getEndpoint(
-                        selectedValue
-                    )}/?email=${email}&filename=${fileNameWithoutExtension}&path=${flagsPath}&itemcount=${itemCount}&sheetcount=${sheetCount}`,
+                    `https://api.greencloud.dev/gc/${getEndpoint(selectedValue
+                    )}/?email=${email}&filename=${fileNameWithoutExtension}&sortcolumn=${sortColumn}&path=${flagsPath}&itemcount=${itemCount}&sheetcount=${sheetCount}`,
                     {
                         method: "POST",
                         headers: {
@@ -80,6 +82,7 @@ function StyledDropzone() {
                         body: file,
                     }
                 )
+                
                 setIsUploading(false)
                 console.log("response", response.status)
                 const responseData = await response.json()
@@ -98,14 +101,14 @@ function StyledDropzone() {
 
     React.useEffect(() => {
         if (taskID === "") return
-        setIsRunnig(true)
+        setIsRunning(true)
 
         async function getResult() {
             try {
                 const response = await fetch(`https://api.greencloud.dev/gc/${taskID}/result`)
                 const responseMessage = await response.text()
                 if (response.status !== 404) {
-                    setIsRunnig(false)
+                    setIsRunning(false)
                     clearInterval(intervalId) // Clear interval when you get a 201 status
                     setResult({
                         status: response.status,
@@ -180,6 +183,9 @@ function StyledDropzone() {
                                 <option value="option7">
                                     Orders - <span>Greggs</span>
                                 </option>
+                                <option value="option8">
+                                    Orders - <span>Customer Sort</span>
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -223,6 +229,18 @@ function StyledDropzone() {
                             </div>
                         </>
                     ) : null}
+                    { selectedValue === "option8" ? ( 
+                        <> 
+                                <div className="mt-2 flex">
+                                    <h3>Sort Column:</h3>
+                                    <input
+                                        className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
+                                        type="text"
+                                        value={sortColumn || ""}
+                                        onChange={(e: any) => setSortColumn(e.target.value)}
+                                    />
+                                </div>
+                        </> ) : null }
                 </div>
                 <button
                     type="button"
@@ -287,7 +305,7 @@ export default function Home() {
 //     return dictionary[text]
 // }
 
-type OptionType = "option1" | "option2"
+type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8"
 function getEndpoint(option: OptionType) {
 
     const endpoints = {
@@ -298,6 +316,7 @@ function getEndpoint(option: OptionType) {
         option5: "9d22d924d3c74f6a9a2fd5e8a1edc7b5", // BUPA Webshop
         option6: "ea2528a5be3c4ffa815af42daff0e450", // ALDI
         option7: "1ed1ee61dfe549769a11e66a6bc1d970", // Greggs
+        option8: "76603dc76a2249c0823f20c23d91f77e", // Customer Sort
     }
 
     return endpoints[option]
