@@ -179,12 +179,15 @@ function StyledDropzone() {
                                     Orders - BUPA
                                 </option>
                                 <option value="option5">
-                                    Orders - BUPA Webshop
+                                    Orders - BUPA Month End
                                 </option>
                                 <option value="option6">
-                                    Orders - ALDI
+                                    Orders - BUPA Webshop
                                 </option>
                                 <option value="option7">
+                                    Orders - ALDI
+                                </option>
+                                <option value="option8">
                                     Orders - Greggs
                                 </option>
                             </select>
@@ -308,9 +311,10 @@ function getEndpoint(option: OptionType) {
         option2: "a6fa9cc736e54ee9bfab74376e75973f", // McDonald's Month End
         option3: "0c542c7113b446089f5b6d5f93f24548", // McDonald's order
         option4: "698c003d40d045c4b35e24bb6065a401", // BUPA
-        option5: "9d22d924d3c74f6a9a2fd5e8a1edc7b5", // BUPA Webshop
-        option6: "ea2528a5be3c4ffa815af42daff0e450", // ALDI
-        option7: "1ed1ee61dfe549769a11e66a6bc1d970", // Greggs
+        option5: "55b66a19856a447eb2d445b261b5f6a1", // BUPA Month End
+        option6: "9d22d924d3c74f6a9a2fd5e8a1edc7b5", // BUPA Webshop
+        option7: "ea2528a5be3c4ffa815af42daff0e450", // ALDI
+        option8: "1ed1ee61dfe549769a11e66a6bc1d970", // Greggs
     }
 
     return endpoints[option]
