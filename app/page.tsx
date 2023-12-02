@@ -173,10 +173,10 @@ function StyledDropzone() {
                                     Badges - British Airways
                                 </option>
                                 <option value="option2">
-                                    Month End - McDonalds
+                                    Orders - McDonalds
                                 </option>
                                 <option value="option3">
-                                    Orders - McDonalds
+                                    Orders - McDonalds - Month End
                                 </option>
                                 <option value="option4">
                                     Orders - BUPA
@@ -326,8 +326,8 @@ function getEndpoint(option: OptionType) {
 
     const endpoints = {
         option1: "58fa8172d6724cd584356f95f8597971", // British Airways Badges
-        option2: "a6fa9cc736e54ee9bfab74376e75973f", // McDonald's Month End
-        option3: "0c542c7113b446089f5b6d5f93f24548", // McDonald's order
+        option2: "0c542c7113b446089f5b6d5f93f24548", // McDonald's order
+        option3: "a6fa9cc736e54ee9bfab74376e75973f", // McDonald's Month End
         option4: "698c003d40d045c4b35e24bb6065a401", // BUPA
         option5: "55b66a19856a447eb2d445b261b5f6a1", // BUPA Month End
         option6: "9d22d924d3c74f6a9a2fd5e8a1edc7b5", // BUPA Webshop
