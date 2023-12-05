@@ -194,7 +194,7 @@ function StyledDropzone() {
                                     Orders - Greggs
                                 </option>
                                 <option value="option9">
-                                    Orders - <span>Customer Sort</span>
+                                    Orders - Customer Sort
                                 </option>
                             </select>
                         </div>
@@ -247,15 +247,15 @@ function StyledDropzone() {
                     ) : null}
                     { selectedValue === "option9" ? ( 
                         <> 
-                                <div className="mt-2 flex">
-                                    <h3>Sort Column:</h3>
-                                    <input
-                                        className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
-                                        type="text"
-                                        value={sortColumn || ""}
-                                        onChange={(e: any) => setSortColumn(e.target.value)}
-                                    />
-                                </div>
+                            <div className="mt-2 flex">
+                                <h3>Sort Column:</h3>
+                                <input
+                                    className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
+                                    type="text"
+                                    value={sortColumn || ""}
+                                    onChange={(e: any) => setSortColumn(e.target.value)}
+                                />
+                            </div>
                         </> ) : null }
                 </div>
                 <button
@@ -321,7 +321,7 @@ export default function Home() {
 //     return dictionary[text]
 // }
 
-type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8 | option9"
+type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9"
 function getEndpoint(option: OptionType) {
 
     const endpoints = {
