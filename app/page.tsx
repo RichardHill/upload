@@ -34,7 +34,7 @@ const rejectStyle = {
 
 function StyledDropzone() {
     const [file, setFile] = React.useState<File | undefined>()
-    type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8"
+    type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9"
     const [selectedValue, setSelectedValue] = React.useState<OptionType>("option1")
     const [selectedPath, setSelectedPath] = React.useState<OptionType>("option1")
     const [email, setEmail] = React.useState("")
@@ -245,7 +245,7 @@ function StyledDropzone() {
                             </div>
                         </>
                     ) : null}
-                    { selectedValue === "option8" ? ( 
+                    { selectedValue === "option9" ? ( 
                         <> 
                                 <div className="mt-2 flex">
                                     <h3>Sort Column:</h3>
@@ -321,7 +321,7 @@ export default function Home() {
 //     return dictionary[text]
 // }
 
-type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8"
+type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8 | option9"
 function getEndpoint(option: OptionType) {
 
     const endpoints = {
