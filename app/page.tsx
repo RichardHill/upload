@@ -34,7 +34,7 @@ const rejectStyle = {
 
 function StyledDropzone() {
     const [file, setFile] = React.useState<File | undefined>()
-    type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9"
+    type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9" | "option10"
     const [selectedValue, setSelectedValue] = React.useState<OptionType>("option1")
     const [selectedPath, setSelectedPath] = React.useState<OptionType>("option1")
     const [email, setEmail] = React.useState("")
@@ -196,6 +196,9 @@ function StyledDropzone() {
                                 <option value="option9">
                                     Orders - Customer Sort
                                 </option>
+                                <option value="option10">
+                                    Orders - BP
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -321,7 +324,7 @@ export default function Home() {
 //     return dictionary[text]
 // }
 
-type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9"
+type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9" | "option10"
 function getEndpoint(option: OptionType) {
 
     const endpoints = {
@@ -334,6 +337,7 @@ function getEndpoint(option: OptionType) {
         option7: "ea2528a5be3c4ffa815af42daff0e450", // ALDI
         option8: "1ed1ee61dfe549769a11e66a6bc1d970", // Greggs
         option9: "76603dc76a2249c0823f20c23d91f77e", // Customer Sort
+        option10: "8aa8428f9e1e4cd7af2dcf830be2b64e", // BP
     }
 
     return endpoints[option]
