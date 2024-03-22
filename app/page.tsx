@@ -34,7 +34,7 @@ const rejectStyle = {
 
 function StyledDropzone() {
     const [file, setFile] = React.useState<File | undefined>()
-    type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9" | "option10"
+    type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9"
     const [selectedValue, setSelectedValue] = React.useState<OptionType>("option1")
     const [selectedPath, setSelectedPath] = React.useState<OptionType>("option1")
     const [email, setEmail] = React.useState("")
@@ -179,24 +179,21 @@ function StyledDropzone() {
                                     Orders - McDonalds - Month End
                                 </option>
                                 <option value="option4">
-                                    Orders - BUPA
-                                </option>
-                                <option value="option5">
                                     Orders - BUPA Month End
                                 </option>
-                                <option value="option6">
+                                <option value="option5">
                                     Orders - BUPA Webshop
                                 </option>
-                                <option value="option7">
+                                <option value="option6">
                                     Orders - ALDI
                                 </option>
-                                <option value="option8">
+                                <option value="option7">
                                     Orders - Greggs
                                 </option>
-                                <option value="option9">
+                                <option value="option8">
                                     Orders - Customer Sort
                                 </option>
-                                <option value="option10">
+                                <option value="option9">
                                     Orders - BP
                                 </option>
                             </select>
@@ -324,20 +321,19 @@ export default function Home() {
 //     return dictionary[text]
 // }
 
-type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9" | "option10"
+type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9"
 function getEndpoint(option: OptionType) {
 
     const endpoints = {
         option1: "58fa8172d6724cd584356f95f8597971", // British Airways Badges
         option2: "0c542c7113b446089f5b6d5f93f24548", // McDonald's order
         option3: "a6fa9cc736e54ee9bfab74376e75973f", // McDonald's Month End
-        option4: "698c003d40d045c4b35e24bb6065a401", // BUPA
-        option5: "55b66a19856a447eb2d445b261b5f6a1", // BUPA Month End
-        option6: "9d22d924d3c74f6a9a2fd5e8a1edc7b5", // BUPA Webshop
-        option7: "ea2528a5be3c4ffa815af42daff0e450", // ALDI
-        option8: "1ed1ee61dfe549769a11e66a6bc1d970", // Greggs
-        option9: "76603dc76a2249c0823f20c23d91f77e", // Customer Sort
-        option10: "8aa8428f9e1e4cd7af2dcf830be2b64e", // BP
+        option4: "55b66a19856a447eb2d445b261b5f6a1", // BUPA Month End
+        option5: "9d22d924d3c74f6a9a2fd5e8a1edc7b5", // BUPA Webshop
+        option6: "ea2528a5be3c4ffa815af42daff0e450", // ALDI
+        option7: "1ed1ee61dfe549769a11e66a6bc1d970", // Greggs
+        option8: "76603dc76a2249c0823f20c23d91f77e", // Customer Sort
+        option9: "8aa8428f9e1e4cd7af2dcf830be2b64e", // BP
     }
 
     return endpoints[option]
