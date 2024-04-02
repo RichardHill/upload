@@ -245,7 +245,7 @@ function StyledDropzone() {
                             </div>
                         </>
                     ) : null}
-                    { selectedValue === "option8" ? ( 
+                    { selectedValue === "option7" ? ( 
                         <> 
                             <div className="mt-2 flex">
                                 <h3>Sort Column:</h3>
