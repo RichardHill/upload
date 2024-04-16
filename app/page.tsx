@@ -208,13 +208,14 @@ function StyledDropzone() {
                             onChange={(e: any) => setEmail(e.target.value)}
                         />
                     </div>
-                    {selectedValue === "option1" ? (
+                    {selectedValue === "option1" || selectedValue === "option9" ? (
                         <>
                             <div className="mt-2 flex">
                                 <h3>Flags path:</h3>
                                 <select className="bg-white ml-28 pl-2 h-6 w-64 rounded absolute" value={selectedPath} onChange={handlePathChange}>
                                     <option value="">Select a path</option>
                                     <option value="C:\">C:\</option>
+                                    <option value="C:\BA\">C:\</option>
                                     <option value="C:\BP\">C:\BP\</option>
                                     <option value="C:\flags\">C:\flags\</option>
                                 </select>
