@@ -107,8 +107,8 @@ function StyledDropzone() {
     })
 
     React.useEffect(() => {
-        if (taskID === "") return
-        setIsRunning(true)
+
+        if (taskID === "") return setIsRunning(true)
 
         async function getResult() {
             try {
@@ -326,15 +326,15 @@ type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "o
 function getEndpoint(option: OptionType) {
 
     const endpoints = {
-        option1: "58fa8172d6724cd584356f95f8597971", // British Airways Badges
-        option2: "0c542c7113b446089f5b6d5f93f24548", // McDonald's order
+        option1: "662832e662090083d0ae5a39", // British Airways Badges
+        option2: "66282fbb72a0222a1942089f", // McDonald's order
         option3: "a6fa9cc736e54ee9bfab74376e75973f", // McDonald's Month End
-        option4: "55b66a19856a447eb2d445b261b5f6a1", // BUPA Month End
-        option5: "9d22d924d3c74f6a9a2fd5e8a1edc7b5", // BUPA Webshop
-        option6: "ea2528a5be3c4ffa815af42daff0e450", // ALDI
-        option7: "1ed1ee61dfe549769a11e66a6bc1d970", // Greggs
-        option8: "76603dc76a2249c0823f20c23d91f77e", // Customer Sort
-        option9: "8aa8428f9e1e4cd7af2dcf830be2b64e", // BP
+        option4: "66282dea1869be1ba9c0fb54", // BUPA Month End
+        option5: "662830bd62090083d0ae5a37", // BUPA Webshop
+        option6: "6628303362090083d0ae5a35", // ALDI
+        option7: "6628cd5c62090083d0ae5a48", // Greggs
+        option8: "66282f7b72a0222a1942089e", // Customer Sort
+        option9: "66282b1236b6c8695d6e2763", // BP
     }
 
     return endpoints[option]
