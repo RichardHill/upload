@@ -73,14 +73,11 @@ function StyledDropzone() {
     const onButtonClick = async () => {
         if (file) {
             try {
-
-                setIsUploading(true)
-                setResult(undefined)
-                setIsRunning(false)
-
+                setIsUploading(true); // Start uploading process
+                setResult(undefined); // Clear previous results
+    
                 const response = await fetch(
-                    `https://api.greencloud.dev/gc/${getEndpoint(selectedValue
-                    )}/?email=${email}&filename=${fileNameWithoutExtension}&sortcolumn=${sortColumn}&path=${flagsPath}&itemcount=${itemCount}&sheetcount=${sheetCount}`,
+                    `https://api.greencloud.dev/gc/${getEndpoint(selectedValue)}/?email=${email}&filename=${fileNameWithoutExtension}&sortcolumn=${sortColumn}&path=${flagsPath}&itemcount=${itemCount}&sheetcount=${sheetCount}`,
                     {
                         method: "POST",
                         headers: {
@@ -88,18 +85,17 @@ function StyledDropzone() {
                         },
                         body: file,
                     }
-                )
-                
-                setIsUploading(false)
-                console.log("response", response.status)
-                const responseData = await response.json()
-                setTaskID(responseData.id)
-                console.log(responseData)
+                );
+    
+                const responseData = await response.json();
+                setTaskID(responseData.id); // Save task ID to fetch results later
+                setIsUploading(false); // Upload is complete
             } catch (error) {
-                console.error("Error:", error)
+                console.error("Error:", error);
+                setIsUploading(false); // Ensure spinner hides on error
             }
         }
-    }
+    };
     const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } = useDropzone({
         accept: { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"] },
         maxFiles: 1,
@@ -107,30 +103,37 @@ function StyledDropzone() {
     })
 
     React.useEffect(() => {
-
-        if (taskID === "") return setIsRunning(true)
-
+        if (!taskID) return; // Do nothing if taskID isn't set yet.
+    
+        let intervalId: string | number | NodeJS.Timeout | undefined; // Declare the intervalId outside to ensure it's accessible in the clearInterval call.
+    
         async function getResult() {
             try {
-                const response = await fetch(`https://api.greencloud.dev/gc/${taskID}/result`)
-                const responseMessage = await response.text()
+                const response = await fetch(`https://api.greencloud.dev/gc/${taskID}/result`);
+                const responseMessage = await response.text();
+                
+                // Check for non-404 status and if found, handle the response and clear the interval.
                 if (response.status !== 404) {
-                    setIsRunning(false)
-                    clearInterval(intervalId) // Clear interval when you get a 201 status
+                    setIsRunning(false); // Stop the "running" spinner
                     setResult({
                         status: response.status,
                         message: responseMessage,
-                    })
+                    });
+                    clearInterval(intervalId); // Clear the interval upon receiving a successful response.
                 }
             } catch (error) {
-                console.error("Error:", error)
+                console.error("Error:", error);
+                clearInterval(intervalId); // Ensure the interval is cleared on error.
             }
         }
-
-        const intervalId = setInterval(getResult, 3000) // Call getResult every 3 seconds
-
-        return () => clearInterval(intervalId) // Clear interval when the component unmounts
-    }, [taskID])
+    
+        setIsRunning(true); // Start the "running" spinner when waiting for results
+        intervalId = setInterval(getResult, 1500); // Set up the interval to poll for results
+    
+        return () => {
+            clearInterval(intervalId); // Clear the interval when the component unmounts or the taskID changes
+        };
+    }, [taskID]);
 
     const style = React.useMemo(
         () => ({
@@ -282,16 +285,13 @@ function StyledDropzone() {
             {isRunning ? (
                 <div className="mt-5">
                     Result: Running
-                    <div
-                        className="inline-block h-4 w-4 ml-2 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                        role="status"
-                    >
+                    <div className="inline-block h-4 w-4 ml-2 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
                         <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
                             Loading...
                         </span>
                     </div>
                 </div>
-            ) : (
+                ) : (
                 <>
                     <h3 className="mt-5">
                         Result: {result?.status === 200 ? "Success" : result === undefined ? "" : "Failure"}
