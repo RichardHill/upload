@@ -211,7 +211,7 @@ function StyledDropzone() {
                             onChange={(e: any) => setEmail(e.target.value)}
                         />
                     </div>
-                    {selectedValue === "option1" ? (
+                    {selectedValue === "option1" || selectedValue === "option9" ? (
                         <>
                             <div className="mt-2 flex">
                                 <h3>Flags path:</h3>
@@ -229,6 +229,9 @@ function StyledDropzone() {
                                     onChange={(e: any) => setFlagsPath(e.target.value)}
                                 /> */}
                             </div>
+
+                            {selectedValue === "option1" ? (
+                            <>
                             <div className="mt-2 flex">
                                 <h3>Item count:</h3>
                                 <input
@@ -247,6 +250,8 @@ function StyledDropzone() {
                                     onChange={(e: any) => setSheetCount(e.target.value)}
                                 />
                             </div>
+                            </>
+                            ) : null }
                         </>
                     ) : null}
                     { selectedValue === "option8" ? ( 
