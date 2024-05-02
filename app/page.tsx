@@ -48,7 +48,7 @@ function StyledDropzone() {
     const [result, setResult] = React.useState<{ status: number; message: string }>()
 
     const handleChange = (event: any) => {
-        if (event.target.value === "option2") {
+        if (event.target.value === "option1") {
             setFlagsPath("C:\\Flags\\")
         } else {
             setFlagsPath("")
@@ -220,7 +220,6 @@ function StyledDropzone() {
                                     <option value="C:\">C:\</option>
                                     <option value="C:\BA\">C:\BA\</option>
                                     <option value="C:\BP\">C:\BP\</option>
-                                    <option value="C:\flags\">C:\flags\</option>
                                 </select>
                                 {/* <input
                                     className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
