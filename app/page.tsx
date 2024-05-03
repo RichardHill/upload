@@ -97,7 +97,7 @@ function StyledDropzone() {
         }
     };
     const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } = useDropzone({
-        accept: { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"] },
+        accept: { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx",".tsv"] },
         maxFiles: 1,
         onDrop,
     })
@@ -150,7 +150,7 @@ function StyledDropzone() {
             <Image src="/logo.jpeg" alt="logo" width={300} height={100} className="m-auto mb-8" />
             <div {...getRootProps({ style })}>
                 <input {...getInputProps()} />
-                <p>Drag &apos;n&apos; drop an .xlsx file here, or click to select one.</p>
+                <p>Drag &apos;n&apos; drop an .xlsx or .tsv file here, or click to select one.</p>
             </div>
             <section className="flex items-center">
                 <div className="flex flex-col mt-4">
