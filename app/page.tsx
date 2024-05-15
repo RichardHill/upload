@@ -178,7 +178,7 @@ function StyledDropzone() {
                                 <option value="option2">
                                     Orders - McDonalds
                                 </option>
-                                <option value="option2">
+                                <option value="option3">
                                     Orders - McDonalds - Processing
                                 </option>
                                 <option value="option4">
