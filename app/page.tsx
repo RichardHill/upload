@@ -352,7 +352,7 @@ function getEndpoint(option: OptionType) {
         option9: "6628cd5c62090083d0ae5a48",  // Greggs
         option10: "66282f7b72a0222a1942089e", // Customer Sort
         option11: "66282b1236b6c8695d6e2763", // BP
-        option12: "669f5cef74ef529b85830ad2" // NHS
+        option12: "66bd5afe3277d809f52815c1", // NHS
     }
 
     return endpoints[option]
