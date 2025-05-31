@@ -3,6 +3,9 @@
 import * as React from "react"
 import { useDropzone } from "react-dropzone"
 import Image from "next/image"
+import {
+    SignOutButton
+  } from '@clerk/nextjs'
 
 const baseStyle: React.CSSProperties = {
     flex: 1,
@@ -32,6 +35,20 @@ const rejectStyle = {
     borderColor: "#ff1744",
 }
 
+
+const signOutButtonStyle: React.CSSProperties = {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    padding: "10px 20px",
+    backgroundColor: "#3b71ca",
+    color: "#ffffff",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+};
+
 function StyledDropzone() {
     const [file, setFile] = React.useState<File | undefined>()
     type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9" | "option10"
@@ -47,6 +64,7 @@ function StyledDropzone() {
     const [taskID, setTaskID] = React.useState("")
     const [result, setResult] = React.useState<{ status: number; message: string }>()
 
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const handleChange = (event: any) => {
         if (event.target.value === "option1") {
             setFlagsPath("C:\\Flags\\")
@@ -56,6 +74,7 @@ function StyledDropzone() {
         setSelectedValue(event.target.value)
     }
 
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const handlePathChange = (event: any) => {
         setSelectedPath(event.target.value)
         //setSelectedValue(event.target.value)
@@ -107,7 +126,8 @@ function StyledDropzone() {
     React.useEffect(() => {
         if (!taskID) return; // Do nothing if taskID isn't set yet.
     
-        let intervalId: string | number | NodeJS.Timeout | undefined; // Declare the intervalId outside to ensure it's accessible in the clearInterval call.
+        // biome-ignore lint/style/useConst: <explanation>
+            let intervalId: string | number | NodeJS.Timeout | undefined; // Declare the intervalId outside to ensure it's accessible in the clearInterval call.
     
         async function getResult() {
             try {
@@ -149,6 +169,13 @@ function StyledDropzone() {
 
     return (
         <div className="container">
+            
+            <div style={signOutButtonStyle}>
+                <SignOutButton />
+            </div>
+            {/* <div className="absolute top-0 right-0 m-4">
+                    <SignOutButton />
+            </div>             */}
             <Image src="/logo.jpeg" alt="logo" width={300} height={100} className="m-auto mb-8" />
             <div {...getRootProps({ style })}>
                 <input {...getInputProps()} />
@@ -213,6 +240,7 @@ function StyledDropzone() {
                             className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
                             type="email"
                             value={email || ""}
+                            // biome-ignore lint/suspicious/noExplicitAny: <explanation>
                             onChange={(e: any) => setEmail(e.target.value)}
                         />
                     </div>
@@ -242,6 +270,7 @@ function StyledDropzone() {
                                     className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
                                     type="number"
                                     value={itemCount || ""}
+                                    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
                                     onChange={(e: any) => setItemCount(e.target.value)}
                                 />
                             </div>
@@ -251,6 +280,7 @@ function StyledDropzone() {
                                     className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
                                     type="number"
                                     value={sheetCount || ""}
+                                    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
                                     onChange={(e: any) => setSheetCount(e.target.value)}
                                 />
                             </div>
@@ -266,6 +296,7 @@ function StyledDropzone() {
                                     className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
                                     type="text"
                                     value={sortColumn || ""}
+                                    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
                                     onChange={(e: any) => setSortColumn(e.target.value)}
                                 />
                             </div>
@@ -282,6 +313,7 @@ function StyledDropzone() {
                     {isUploading ? (
                         <div
                             className="inline-block h-4 w-4 ml-2 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                            // biome-ignore lint/a11y/useSemanticElements: <explanation>
                             role="status"
                         >
                             <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
@@ -294,7 +326,8 @@ function StyledDropzone() {
             {isRunning ? (
                 <div className="mt-5">
                     Result: Running
-                    <div className="inline-block h-4 w-4 ml-2 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+                    {/* biome-ignore lint/a11y/useSemanticElements: <explanation> */}
+                     <div className="inline-block h-4 w-4 ml-2 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
                         <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
                             Loading...
                         </span>
