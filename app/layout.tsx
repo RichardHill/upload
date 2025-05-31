@@ -1,17 +1,36 @@
-import "./globals.css"
-import { Inter } from "next/font/google"
+import type { Metadata } from 'next'
+import {
+  ClerkProvider,
+  RedirectToSignIn,
+  SignedIn,
+  SignedOut,
+} from '@clerk/nextjs'
+import './globals.css'
 
-const inter = Inter({ subsets: ["latin"] })
 
-export const metadata = {
-    title: "Re-Trade Order Processing",
-    description: "Re-Trade order processing panel",
+
+export const metadata: Metadata = {
+  title: 'ReTrade - Sign In',
+  description: 'Genereated by Green Cloud Computing Ltd',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-    return (
-        <html lang="en">
-            <body className={inter.className}>{children}</body>
-        </html>
-    )
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <ClerkProvider>
+    <html lang="en">
+      <body>
+        <SignedIn>
+          {children}
+        </SignedIn>
+        <SignedOut>
+          <RedirectToSignIn />
+        </SignedOut>
+      </body>
+    </html>
+  </ClerkProvider>
+  )
 }
