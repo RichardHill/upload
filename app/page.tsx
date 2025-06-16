@@ -51,7 +51,7 @@ const signOutButtonStyle: React.CSSProperties = {
 
 function StyledDropzone() {
     const [file, setFile] = React.useState<File | undefined>()
-    type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9" | "option10"
+    type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9"
     const [selectedValue, setSelectedValue] = React.useState<OptionType>("option1")
     const [selectedPath, setSelectedPath] = React.useState<OptionType>("option1")
     const [email, setEmail] = React.useState("")
@@ -226,9 +226,6 @@ function StyledDropzone() {
                                     Orders - Customer Sort
                                 </option>
                                 <option value="option9">
-                                    Orders - BP
-                                </option>
-                                <option value="option10">
                                     Orders - NHS
                                 </option>
                             </select>
@@ -244,7 +241,7 @@ function StyledDropzone() {
                             onChange={(e: any) => setEmail(e.target.value)}
                         />
                     </div>
-                    {selectedValue === "option1" || selectedValue === "option9" ? (
+                    {selectedValue === "option1" ? (
                         <>
                             <div className="mt-2 flex">
                                 <h3>Flags path:</h3>
@@ -252,7 +249,6 @@ function StyledDropzone() {
                                     <option value="">Select a path</option>
                                     <option value="C:\">C:\</option>
                                     <option value="C:\BA\">C:\BA\</option>
-                                    <option value="C:\BP\">C:\BP\</option>
                                 </select>
                                 {/* <input
                                     className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
@@ -353,34 +349,8 @@ export default function Home() {
     )
 }
 
-// Helper functions
-
-// function extension(text: OptionType) {
-//     const dictionary = {
-//         option1: "an .xlsx",
-//         option2: "a .csv",
-//     }
-
-//     return dictionary[text]
-// }
-
-type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9" | "option10"
+type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9"
 function getEndpoint(option: OptionType) {
-
-    // const endpoints = {
-    //     option1: "662832e662090083d0ae5a39",  // British Airways Badges
-    //     option2: "66282fbb72a0222a1942089f",  // McDonald's order
-    //     option3: "664c6a8272c30de86115f0b9",  // McDonald's Processing
-    //     option4: "6628dd5962090083d0ae5a4c",  // McDonald's Month End - TSV
-    //     option5: "669e241374ef529b85830ad1",  // McDonald's Month End - XLSX
-    //     option6: "66282dea1869be1ba9c0fb54",  // BUPA Month End
-    //     option7: "662830bd62090083d0ae5a37",  // BUPA Webshop
-    //     option8: "6628303362090083d0ae5a35",  // ALDI
-    //     option9: "6628cd5c62090083d0ae5a48",  // Greggs
-    //     option10: "66282f7b72a0222a1942089e", // Customer Sort
-    //     option11: "66282b1236b6c8695d6e2763", // BP
-    //     option12: "669f5cef74ef529b85830ad2", // NHS
-    // }
 
     const endpoints = {
         option1: "662832e662090083d0ae5a39",  // British Airways Badges
@@ -391,14 +361,8 @@ function getEndpoint(option: OptionType) {
         option6: "6628303362090083d0ae5a35",  // ALDI
         option7: "6628cd5c62090083d0ae5a48",  // Greggs
         option8: "66282f7b72a0222a1942089e",  // Customer Sort
-        option9: "66282b1236b6c8695d6e2763",  // BP
-        option10: "669f5cef74ef529b85830ad2", // NHS
+        option9: "669f5cef74ef529b85830ad2", // NHS
     }
-
-    //option2: "66282fbb72a0222a1942089f",  // McDonald's order
-    //option4: "6628dd5962090083d0ae5a4c",  // McDonald's Month End - TSV
-    //option5: "669e241374ef529b85830ad1",  // McDonald's Month End - XLSX
-
 
     return endpoints[option]
 }
