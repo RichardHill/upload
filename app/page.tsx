@@ -167,7 +167,7 @@ function StyledDropzone() {
         [isFocused, isDragAccept, isDragReject]
     )
 
-    return (
+    return ( 
         <div className="container">
             
             <div style={signOutButtonStyle}>
@@ -236,12 +236,25 @@ function StyledDropzone() {
                     </div>
                     <div className="mt-2 flex">
                         <h3>Email:</h3>
+                        <select
+                            className="bg-white ml-28 pl-2 h-6 w-64 rounded absolute !text-black"
+                            value={email}
+                            onChange={(e: any) => setEmail(e.target.value)}
+                        >
+                            <option value="">Enter manually...</option>
+                            <option value="RHopeJones@re-trade.co.uk">RHopeJones@re-trade.co.uk</option>
+                            <option value="Danar@re-trade.co.uk">Danar@re-trade.co.uk</option>
+                            <option value="Orders@Rec-Express.co.uk">Orders@Rec-Express.co.uk</option>
+                        </select>
+                    </div>
+                    <div className="mt-2 flex">
+                        <h3>Custom Email:</h3>
                         <input
                             className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
                             type="email"
-                            value={email || ""}
-                            // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+                            value={email}
                             onChange={(e: any) => setEmail(e.target.value)}
+                            placeholder="Enter email address"
                         />
                     </div>
                     {selectedValue === "option1" || selectedValue === "option9" ? (
