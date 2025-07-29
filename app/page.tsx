@@ -51,7 +51,7 @@ const signOutButtonStyle: React.CSSProperties = {
 
 function StyledDropzone() {
     const [file, setFile] = React.useState<File | undefined>()
-    type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9"
+    type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8"
     const [selectedValue, setSelectedValue] = React.useState<OptionType>("option1")
     const [selectedPath, setSelectedPath] = React.useState<OptionType>("option1")
     const [email, setEmail] = React.useState("")
@@ -202,31 +202,28 @@ function StyledDropzone() {
                             >
                                 <option value="">Select an option</option>
                                 <option value="option1">
-                                    Badges - British Airways
+                                    Orders - British Airways
                                 </option>
                                 <option value="option2">
-                                    Orders - McDonalds - Processing
+                                    Orders - McDonalds
                                 </option>
                                 <option value="option3">
-                                    Orders - McDonalds - Month End XLSX
+                                    Orders - BUPA
                                 </option>
                                 <option value="option4">
-                                    Orders - BUPA Month End
-                                </option>
-                                <option value="option5">
-                                    Orders - BUPA Webshop
-                                </option>
-                                <option value="option6">
                                     Orders - ALDI
                                 </option>
-                                <option value="option7">
+                                <option value="option5">
                                     Orders - Greggs
                                 </option>
-                                <option value="option8">
-                                    Orders - Customer Sort
+                                <option value="option6">
+                                    Month End - McDonalds
                                 </option>
-                                <option value="option9">
-                                    Orders - NHS
+                                <option value="option7">
+                                    Month End - BUPA
+                                </option>
+                                <option value="option8">
+                                    Adhoc - Customer Sort
                                 </option>
                             </select>
                         </div>
@@ -263,12 +260,6 @@ function StyledDropzone() {
                                     <option value="C:\">C:\</option>
                                     <option value="C:\BA\">C:\BA\</option>
                                 </select>
-                                {/* <input
-                                    className="h-6 ml-28 pl-2 w-64 rounded !text-black absolute"
-                                    type="text"
-                                    value={flagsPath || ""}
-                                    onChange={(e: any) => setFlagsPath(e.target.value)}
-                                /> */}
                             </div>
 
                             {selectedValue === "option1" ? (
@@ -362,19 +353,28 @@ export default function Home() {
     )
 }
 
-type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9"
+type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8"
 function getEndpoint(option: OptionType) {
 
     const endpoints = {
+        // option1: "662832e662090083d0ae5a39",  // British Airways Badges
+        // option2: "664c6a8272c30de86115f0b9",  // McDonald's Processing
+        // option3: "669e241374ef529b85830ad1",  // McDonalds Month End XLSX
+        // option4: "66282dea1869be1ba9c0fb54",  // BUPA Month End
+        // option5: "662830bd62090083d0ae5a37",  // BUPA Webshop
+        // option6: "6628303362090083d0ae5a35",  // ALDI
+        // option7: "6628cd5c62090083d0ae5a48",  // Greggs
+        // option8: "66282f7b72a0222a1942089e",  // Customer Sort
+
         option1: "662832e662090083d0ae5a39",  // British Airways Badges
         option2: "664c6a8272c30de86115f0b9",  // McDonald's Processing
-        option3: "669e241374ef529b85830ad1",  // McDonalds Month End XLSX
-        option4: "66282dea1869be1ba9c0fb54",  // BUPA Month End
-        option5: "662830bd62090083d0ae5a37",  // BUPA Webshop
-        option6: "6628303362090083d0ae5a35",  // ALDI
-        option7: "6628cd5c62090083d0ae5a48",  // Greggs
+        option3: "662830bd62090083d0ae5a37",  // BUPA Webshop
+        option4: "6628303362090083d0ae5a35",  // ALDI
+        option5: "6628cd5c62090083d0ae5a48",  // Greggs
+        option6: "669e241374ef529b85830ad1",  // McDonalds - Month End 
+        option7: "66282dea1869be1ba9c0fb54",  // BUPA - Month End        
         option8: "66282f7b72a0222a1942089e",  // Customer Sort
-        option9: "669f5cef74ef529b85830ad2", // NHS
+
     }
 
     return endpoints[option]
