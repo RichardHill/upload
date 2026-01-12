@@ -51,7 +51,7 @@ const signOutButtonStyle: React.CSSProperties = {
 
 function StyledDropzone() {
     const [file, setFile] = React.useState<File | undefined>()
-    type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8"
+    type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9"
     const [selectedValue, setSelectedValue] = React.useState<OptionType>("option1")
     const [selectedPath, setSelectedPath] = React.useState<OptionType>("option1")
     const [email, setEmail] = React.useState("")
@@ -216,6 +216,9 @@ function StyledDropzone() {
                                 <option value="option5">
                                     Orders - Greggs
                                 </option>
+                                <option value="option9">
+                                    Orders - DWP
+                                </option>
                                 <option value="option6">
                                     Month End - McDonalds
                                 </option>
@@ -353,7 +356,7 @@ export default function Home() {
     )
 }
 
-type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8"
+type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9"
 function getEndpoint(option: OptionType) {
 
     const endpoints = {
@@ -374,6 +377,7 @@ function getEndpoint(option: OptionType) {
         option6: "669e241374ef529b85830ad1",  // McDonalds - Month End 
         option7: "66282dea1869be1ba9c0fb54",  // BUPA - Month End        
         option8: "66282f7b72a0222a1942089e",  // Customer Sort
+        option9: "69653668a26f8a90a0b61920",  // DWP - Orders
 
     }
 
