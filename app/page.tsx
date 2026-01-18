@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useDropzone } from "react-dropzone"
 import Image from "next/image"
+import JSZip from "jszip"
 import {
     SignOutButton
   } from '@clerk/nextjs'
@@ -50,10 +51,11 @@ const signOutButtonStyle: React.CSSProperties = {
 };
 
 function StyledDropzone() {
-    const [file, setFile] = React.useState<File | undefined>()
     type OptionType = "option1" | "option2" | "option3" | "option4" | "option5" | "option6" | "option7" | "option8" | "option9"
     const [selectedValue, setSelectedValue] = React.useState<OptionType>("option1")
     const [selectedPath, setSelectedPath] = React.useState<OptionType>("option1")
+    const isDwp = selectedValue === "option9"
+    const [files, setFiles] = React.useState<File[]>([])
     const [email, setEmail] = React.useState("")
     const [flagsPath, setFlagsPath] = React.useState("")
     const [sortColumn, setSortColumn] = React.useState("")
@@ -82,27 +84,50 @@ function StyledDropzone() {
     }
 
     const onDrop = React.useCallback((acceptedFiles: File[]) => {
-        if (acceptedFiles.length > 0) {
-            setFile(acceptedFiles[0])
-        }
-    }, [])
+        if (acceptedFiles.length === 0) return
+        setFiles(isDwp ? acceptedFiles : [acceptedFiles[0]])
+    }, [isDwp])
 
-    const fileNameWithoutExtension = file?.name.split(".").slice(0, -1).join(".").replaceAll(" ", "_")
+    React.useEffect(() => {
+        if (!isDwp && files.length > 1) {
+            setFiles((currentFiles) => currentFiles.slice(0, 1))
+        }
+    }, [isDwp, files.length])
+
+    const handleRemoveFile = (index: number) => {
+        setFiles((currentFiles) => currentFiles.filter((_, fileIndex) => fileIndex !== index))
+    }
+
+    const fileDisplayValue = files.map((fileItem) => fileItem.name).join(", ")
 
     const onButtonClick = async () => {
-        if (file) {
+        const selectedFile = files[0]
+        if (selectedFile) {
             try {
                 setIsUploading(true); // Start uploading process
                 setResult(undefined); // Clear previous results
+
+                const fileNameWithoutExtension = selectedFile.name.split(".").slice(0, -1).join(".").replaceAll(" ", "_")
+                let uploadFileName = fileNameWithoutExtension
+                let requestBody: Blob | File = selectedFile
+
+                if (isDwp) {
+                    const zip = new JSZip()
+                    files.forEach((fileItem) => {
+                        zip.file(fileItem.name, fileItem)
+                    })
+                    requestBody = await zip.generateAsync({ type: "blob" })
+                    uploadFileName = `dwp_batch_${new Date().toISOString().replace(/[:.]/g, "-")}`
+                }
     
                 const response = await fetch(
-                    `https://api.greencloud.dev/gc/${getEndpoint(selectedValue)}/?email=${email}&filename=${fileNameWithoutExtension}&sortcolumn=${sortColumn}&path=${flagsPath}&itemcount=${itemCount}&sheetcount=${sheetCount}`,
+                    `https://api.greencloud.dev/gc/${getEndpoint(selectedValue)}/?email=${email}&filename=${uploadFileName}&sortcolumn=${sortColumn}&path=${flagsPath}&itemcount=${itemCount}&sheetcount=${sheetCount}`,
                     {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/octet-stream",
                         },
-                        body: file,
+                        body: requestBody,
                     }
                 );
     
@@ -119,7 +144,9 @@ function StyledDropzone() {
         accept: { 
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx", ".tsv"],
             "application/zip": [".zip"]
-        },        maxFiles: 1,
+        },
+        multiple: isDwp,
+        ...(isDwp ? {} : { maxFiles: 1 }),
         onDrop,
     })
 
@@ -189,9 +216,49 @@ function StyledDropzone() {
                             readOnly
                             className="h-6 !ml-28 pl-2 w-64 rounded !text-black absolute"
                             type="text"
-                            value={file?.name || ""}
+                            value={fileDisplayValue}
                         />
                     </div>
+                    {isDwp ? (
+                        <div className="mt-2 ml-28 w-64 rounded border border-gray-200 bg-white p-2 text-black">
+                            {files.length === 0 ? (
+                                <p className="text-xs text-gray-500">No files selected.</p>
+                            ) : (
+                                <ul className="space-y-1 text-xs">
+                                    {files.map((fileItem, index) => (
+                                        <li key={`${fileItem.name}-${index}`} className="flex items-center justify-between gap-2">
+                                            <span className="flex min-w-0 items-center gap-2">
+                                                <svg
+                                                    className="h-4 w-4 flex-none text-gray-500"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeWidth="1.5"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M19.5 9.5V6a2 2 0 0 0-2-2h-7L5 9.5V18a2 2 0 0 0 2 2h10.5a2 2 0 0 0 2-2v-8.5Z"
+                                                    />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 4v5.5H5" />
+                                                </svg>
+                                                <span className="truncate">{fileItem.name}</span>
+                                            </span>
+                                            <button
+                                                type="button"
+                                                className="text-gray-500 hover:text-red-600"
+                                                onClick={() => handleRemoveFile(index)}
+                                                aria-label={`Remove ${fileItem.name}`}
+                                            >
+                                                X
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    ) : null}
                     <div className="mt-2 flex">
                         <h3>Client:</h3>
                         <div>
@@ -308,8 +375,8 @@ function StyledDropzone() {
                 <button
                     type="button"
                     onClick={onButtonClick}
-                    disabled={email === "" || !file?.name}
-                    style={{ background: email === "" || !file?.name ? "gray" : "#3b71ca" }}
+                    disabled={email === "" || files.length === 0}
+                    style={{ background: email === "" || files.length === 0 ? "gray" : "#3b71ca" }}
                     className="mt-5 ml-96 bg-[#3b71ca] inline-block rounded bg-info px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-info-600"
                 >
                     Upload
