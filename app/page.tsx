@@ -309,6 +309,8 @@ function StyledDropzone() {
                             <option value="RHopeJones@re-trade.co.uk">RHopeJones@re-trade.co.uk</option>
                             <option value="Danar@re-trade.co.uk">Danar@re-trade.co.uk</option>
                             <option value="Orders@Rec-Express.co.uk">Orders@Rec-Express.co.uk</option>
+                            <option value="manchester@re-trade.co.uk">manchester@re-trade.co.uk</option>
+
                         </select>
                     </div>
                     <div className="mt-2 flex">
