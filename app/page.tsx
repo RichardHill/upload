@@ -36,6 +36,10 @@ const rejectStyle = {
     borderColor: "#ff1744",
 }
 
+const isZipFile = (file: File) => {
+    const fileName = file.name.toLowerCase()
+    return fileName.endsWith(".zip") || file.type === "application/zip" || file.type === "application/x-zip-compressed"
+}
 
 const signOutButtonStyle: React.CSSProperties = {
     position: "absolute",
@@ -65,6 +69,7 @@ function StyledDropzone() {
     const [isRunning, setIsRunning] = React.useState(false)
     const [taskID, setTaskID] = React.useState("")
     const [result, setResult] = React.useState<{ status: number; message: string }>()
+    const hasZipFile = files.some(isZipFile)
 
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const handleChange = (event: any) => {
@@ -85,7 +90,18 @@ function StyledDropzone() {
 
     const onDrop = React.useCallback((acceptedFiles: File[]) => {
         if (acceptedFiles.length === 0) return
-        setFiles(isDwp ? acceptedFiles : [acceptedFiles[0]])
+        if (!isDwp) {
+            setFiles([acceptedFiles[0]])
+            return
+        }
+
+        const zipFile = acceptedFiles.find(isZipFile)
+        if (zipFile) {
+            setFiles([zipFile])
+            return
+        }
+
+        setFiles(acceptedFiles)
     }, [isDwp])
 
     React.useEffect(() => {
@@ -111,13 +127,17 @@ function StyledDropzone() {
                 let uploadFileName = fileNameWithoutExtension
                 let requestBody: Blob | File = selectedFile
 
-                if (isDwp) {
+                const isDwpZipUpload = isDwp && isZipFile(selectedFile)
+
+                if (isDwp && !isDwpZipUpload) {
                     const zip = new JSZip()
                     files.forEach((fileItem) => {
                         zip.file(fileItem.name, fileItem)
                     })
                     requestBody = await zip.generateAsync({ type: "blob" })
                     uploadFileName = `dwp_batch_${new Date().toISOString().replace(/[:.]/g, "-")}`
+                } else if (isDwpZipUpload) {
+                    uploadFileName = selectedFile.name
                 }
     
                 const response = await fetch(
@@ -145,7 +165,7 @@ function StyledDropzone() {
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx", ".tsv"],
             "application/zip": [".zip"]
         },
-        multiple: isDwp,
+        multiple: isDwp && !hasZipFile,
         ...(isDwp ? {} : { maxFiles: 1 }),
         onDrop,
     })
