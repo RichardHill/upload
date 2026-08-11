@@ -123,7 +123,7 @@ function StyledDropzone() {
                 setIsUploading(true); // Start uploading process
                 setResult(undefined); // Clear previous results
 
-                const fileNameWithoutExtension = selectedFile.name.split(".").slice(0, -1).join(".").replaceAll(" ", "_")
+                const fileNameWithoutExtension = selectedFile.name.split(".").slice(0, -1).join(".")
                 let uploadFileName = fileNameWithoutExtension
                 let requestBody: Blob | File = selectedFile
 
@@ -140,8 +140,17 @@ function StyledDropzone() {
                     uploadFileName = selectedFile.name
                 }
     
+                const query = new URLSearchParams({
+                    email,
+                    filename: uploadFileName,
+                    sortcolumn: sortColumn,
+                    path: flagsPath,
+                    itemcount: itemCount,
+                    sheetcount: sheetCount,
+                })
+
                 const response = await fetch(
-                    `https://api.greencloud.dev/gc/${getEndpoint(selectedValue)}/?email=${email}&filename=${uploadFileName}&sortcolumn=${sortColumn}&path=${flagsPath}&itemcount=${itemCount}&sheetcount=${sheetCount}`,
+                    `https://api.greencloud.dev/gc/${getEndpoint(selectedValue)}/?${query.toString()}`,
                     {
                         method: "POST",
                         headers: {
