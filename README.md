@@ -32,3 +32,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Burger King Excel batches
+
+Select **Orders – Burger King** and upload either one `.xlsx` workbook, multiple
+`.xlsx` workbooks selected together, or one ZIP containing the Excel workbooks.
+Multiple selections are packaged as a ZIP before upload; an existing ZIP is sent
+unchanged. Do not select a ZIP and loose workbooks together.
+
+The Burger King converter must support ZIP batches before this upload change is
+released. It returns one combined workbook with a Source Spreadsheet column in
+Production, Invoicing and Warnings. Existing DWP upload behaviour is preserved.
+
+Run `npm run test:uploads`, `npm run lint` and `npm run build` to verify changes.

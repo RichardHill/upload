@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useDropzone } from "react-dropzone"
 import Image from "next/image"
-import JSZip from "jszip"
+import { isZipFile, prepareOrderUpload } from "./orderUpload"
 import {
     SignOutButton
   } from '@clerk/nextjs'
@@ -36,11 +36,6 @@ const rejectStyle = {
     borderColor: "#ff1744",
 }
 
-const isZipFile = (file: File) => {
-    const fileName = file.name.toLowerCase()
-    return fileName.endsWith(".zip") || file.type === "application/zip" || file.type === "application/x-zip-compressed"
-}
-
 const signOutButtonStyle: React.CSSProperties = {
     position: "absolute",
     top: "10px",
@@ -59,6 +54,8 @@ function StyledDropzone() {
     const [selectedValue, setSelectedValue] = React.useState<OptionType>("option1")
     const [selectedPath, setSelectedPath] = React.useState<OptionType>("option1")
     const isDwp = selectedValue === "option9"
+    const isBurgerKing = selectedValue === "option11"
+    const isBatchUpload = isDwp || isBurgerKing
     const [files, setFiles] = React.useState<File[]>([])
     const [email, setEmail] = React.useState("")
     const [flagsPath, setFlagsPath] = React.useState("")
@@ -90,25 +87,31 @@ function StyledDropzone() {
 
     const onDrop = React.useCallback((acceptedFiles: File[]) => {
         if (acceptedFiles.length === 0) return
-        if (!isDwp) {
+        setResult(undefined)
+        if (!isBatchUpload) {
             setFiles([acceptedFiles[0]])
             return
         }
 
         const zipFile = acceptedFiles.find(isZipFile)
+        if (isBurgerKing && zipFile && acceptedFiles.length > 1) {
+            setFiles([])
+            setResult({ status: 400, message: "Choose one ZIP archive, or select the individual XLSX workbooks together." })
+            return
+        }
         if (zipFile) {
             setFiles([zipFile])
             return
         }
 
         setFiles(acceptedFiles)
-    }, [isDwp])
+    }, [isBatchUpload, isBurgerKing])
 
     React.useEffect(() => {
-        if (!isDwp && files.length > 1) {
+        if (!isBatchUpload && files.length > 1) {
             setFiles((currentFiles) => currentFiles.slice(0, 1))
         }
-    }, [isDwp, files.length])
+    }, [isBatchUpload, files.length])
 
     const handleRemoveFile = (index: number) => {
         setFiles((currentFiles) => currentFiles.filter((_, fileIndex) => fileIndex !== index))
@@ -123,22 +126,9 @@ function StyledDropzone() {
                 setIsUploading(true); // Start uploading process
                 setResult(undefined); // Clear previous results
 
-                const fileNameWithoutExtension = selectedFile.name.split(".").slice(0, -1).join(".")
-                let uploadFileName = fileNameWithoutExtension
-                let requestBody: Blob | File = selectedFile
-
-                const isDwpZipUpload = isDwp && isZipFile(selectedFile)
-
-                if (isDwp && !isDwpZipUpload) {
-                    const zip = new JSZip()
-                    files.forEach((fileItem) => {
-                        zip.file(fileItem.name, fileItem)
-                    })
-                    requestBody = await zip.generateAsync({ type: "blob" })
-                    uploadFileName = `dwp_batch_${new Date().toISOString().replace(/[:.]/g, "-")}`
-                } else if (isDwpZipUpload) {
-                    uploadFileName = selectedFile.name
-                }
+                const { filename: uploadFileName, body: requestBody } = await prepareOrderUpload(
+                    files, isDwp ? "dwp" : isBurgerKing ? "burgerking" : "single"
+                )
     
                 const query = new URLSearchParams({
                     email,
@@ -165,17 +155,18 @@ function StyledDropzone() {
                 setIsUploading(false); // Upload is complete
             } catch (error) {
                 console.error("Error:", error);
+                setResult({ status: 400, message: error instanceof Error ? error.message : "The upload could not be sent. Please try again." });
                 setIsUploading(false); // Ensure spinner hides on error
             }
         }
     };
     const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } = useDropzone({
         accept: { 
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx", ".tsv"],
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": isBurgerKing ? [".xlsx"] : [".xlsx", ".tsv"],
             "application/zip": [".zip"]
         },
-        multiple: isDwp && !hasZipFile,
-        ...(isDwp ? {} : { maxFiles: 1 }),
+        multiple: isBatchUpload && !hasZipFile,
+        ...(isBatchUpload ? {} : { maxFiles: 1 }),
         onDrop,
     })
 
@@ -235,7 +226,7 @@ function StyledDropzone() {
             <Image src="/logo.jpeg" alt="logo" width={300} height={100} className="m-auto mb-8" />
             <div {...getRootProps({ style })}>
                 <input {...getInputProps()} />
-                <p>Drag &apos;n&apos; drop an .xlsx / .tsv / .zip file here, or click to select one.</p>
+                <p>{isBurgerKing ? "Drop one ZIP containing your XLSX orders, or click to select one or more XLSX workbooks." : "Drag 'n' drop an .xlsx / .tsv / .zip file here, or click to select one."}</p>
             </div>
             <section className="flex items-center">
                 <div className="flex flex-col mt-4">
@@ -248,7 +239,7 @@ function StyledDropzone() {
                             value={fileDisplayValue}
                         />
                     </div>
-                    {isDwp ? (
+                    {isBatchUpload ? (
                         <div className="mt-2 ml-28 w-64 rounded border border-gray-200 bg-white p-2 text-black">
                             {files.length === 0 ? (
                                 <p className="text-xs text-gray-500">No files selected.</p>
